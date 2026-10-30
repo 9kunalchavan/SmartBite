@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SmartBite – Smart College Food Habit & Diet Planner</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container bar">
+      <a href="#home" class="logo">🥗 SmartBite</a>
+      <button id="menuBtn" class="menu-btn" aria-label="Open menu">☰</button>
+      <nav id="menu">
+        <a href="#home">Home</a>
+        <a href="#profile">Profile</a>
+        <a href="#planner">Meal Planner</a>
+        <a href="#tracker">Food Tracker</a>
+        <a href="#water">Water</a>
+        <a href="#dashboard">Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="container hero-grid">
+        <div>
+          <h1>SmartBite – Eat Smart, Live Better.</h1>
+          <p>SmartBite helps college students plan affordable, balanced Indian meals. Tell us your food
+             preference, budget and goal, and get simple meal ideas for the whole day. Then track what you
+             eat, what you spend and how much water you drink.</p>
+          <a href="#profile" class="btn">Get Started</a>
+        </div>
+        <div class="food-grid" aria-hidden="true">
+          <span>🍛</span><span>🥗</span><span>🍳</span>
+          <span>🥛</span><span>🍌</span><span>🫓</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="profile" class="container">
+      <h2>Student Profile</h2>
+      <form id="profileForm" class="card form-grid">
+        <label>Name
+          <input id="name" type="text" maxlength="40" required placeholder="e.g. Riya">
+        </label>
+        <label>Age
+          <input id="age" type="number" min="15" max="60" required placeholder="e.g. 19">
+        </label>
+        <label>Food preference
+          <select id="preference" required>
+            <option value="Vegetarian">Vegetarian</option>
+            <option value="Non-Vegetarian">Non-Vegetarian</option>
+          </select>
+        </label>
+        <label>Daily food budget (₹)
+          <input id="budget" type="number" min="30" max="2000" required placeholder="e.g. 150">
+        </label>
+        <label>Goal
+          <select id="goal" required>
+            <option value="Healthy Eating">Healthy Eating</option>
+            <option value="Muscle Building">Muscle Building</option>
+            <option value="General Fitness">General Fitness</option>
+          </select>
+        </label>
+        <div class="form-action"><button class="btn" type="submit">Save profile</button></div>
+      </form>
+    </section>
+
+    <section id="planner" class="container">
+      <h2>Meal Planner</h2>
+      <p id="planNote" class="note">Save your profile to see your meal plan.</p>
+      <div id="planGrid" class="cards"></div>
+    </section>
+
+    <section id="tracker" class="container">
+      <h2>Food Tracker</h2>
+      <form id="logForm" class="card log-form">
+        <label>Food
+          <select id="foodSelect" required></select>
+        </label>
+        <label>Quantity (servings)
+          <input id="quantity" type="number" min="0.5" max="20" step="0.5" value="1" required>
+        </label>
+        <button class="btn" type="submit">Add food</button>
+      </form>
+      <div class="card table-wrap">
+        <table>
+          <thead><tr><th>Food</th><th>Qty</th><th>Calories</th><th>Protein (g)</th><th>Cost (₹)</th><th></th></tr></thead>
+          <tbody id="logBody"></tbody>
+          <tfoot><tr><td colspan="2">Total</td><td id="totCal">0</td><td id="totPro">0</td><td id="totCost">0</td><td></td></tr></tfoot>
+        </table>
+        <p id="logEmpty" class="note">No food added yet today.</p>
+        <button id="clearLog" class="btn btn-light" type="button">Clear today's records</button>
+      </div>
+    </section>
+
+    <section id="water" class="container">
+      <h2>Water Tracker</h2>
+      <div class="card water-card">
+        <div class="water-count"><span id="waterCount">0</span> / <span id="waterTarget">8</span> glasses</div>
+        <div id="glasses" class="glasses" aria-hidden="true"></div>
+        <div class="water-btns">
+          <button id="waterMinus" class="btn btn-light round" aria-label="Remove one glass">−</button>
+          <button id="waterPlus" class="btn round" aria-label="Add one glass">+</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard" class="container">
+      <h2>Dashboard</h2>
+      <p id="greeting" class="note"></p>
+      <div class="cards dash">
+        <div class="card"><h3>🔥 Calories</h3><p class="big"><span id="dCal">0</span> / <span id="dCalT">0</span> kcal</p>
+          <div class="bar-bg"><div id="bCal" class="bar-fill"></div></div></div>
+        <div class="card"><h3>💪 Protein</h3><p class="big"><span id="dPro">0</span> / <span id="dProT">0</span> g</p>
+          <div class="bar-bg"><div id="bPro" class="bar-fill"></div></div></div>
+        <div class="card"><h3>💰 Food expenses</h3><p class="big">₹<span id="dExp">0</span> / ₹<span id="dBud">–</span></p>
+          <div class="bar-bg"><div id="bExp" class="bar-fill"></div></div></div>
+        <div class="card"><h3>💧 Water</h3><p class="big"><span id="dWat">0</span> / <span id="dWatT">8</span> glasses</p>
+          <div class="bar-bg"><div id="bWat" class="bar-fill"></div></div></div>
+      </div>
+      <p id="tip" class="tip"></p>
+    </section>
+  </main>
+
+  <footer><p>SmartBite – Computer Engineering CEP Project. Nutrition values are estimates for learning purposes.</p></footer>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
